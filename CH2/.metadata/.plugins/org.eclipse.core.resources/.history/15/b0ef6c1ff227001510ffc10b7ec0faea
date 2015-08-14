@@ -1,0 +1,53 @@
+
+public class IndexMinPQ<Key implements Comparable<Key>>{
+	
+	private int[] pq;    
+	private int[] qp;    //qp[i] gives the position of i in pq, index j s.t pq[j] is i
+	private Key[] keys;
+	
+	public IndexMinPQ(int initCapacity) {
+		keys = (Key[]) new Object[initCapacity + 1];
+		pq = new int[initCapacity + 1];
+		qp = new int[initCapacity + 1];
+		for (int i = 0; i <= initCapacity; i++) qp[i] = -1;
+	}
+	public void insert(int i, Key key) {
+		//TODO
+	}
+	
+	public void changeKey(int i, Key Key) {
+		//TODO
+	}
+	
+	public boolean contains(int i) {
+		//TODO
+	}
+	
+	public void delete(int i) {
+		//TODO
+	}
+	
+	public Key minKey() {
+		//TODO
+	}
+	
+	public int minIndex() {
+		//TODO
+	}
+	
+	public int delMin() {
+		//TODO
+	}
+	
+	public boolean isEmpty() {
+		//TODO
+	}
+	
+	public int size() {
+		//TODO
+	}
+	
+	public Key keyOf(int i) {
+		//TODO
+	}
+}

@@ -1,0 +1,67 @@
+
+public class IndexMinPQ<Key extends Comparable<Key>>{
+	private int N;
+	private int[] pq;    //pq[i] gives the position of i in qp
+	private int[] qp;    //qp[i] gives the position of i in pq, index j s.t pq[j] is i
+	private Key[] keys;
+	
+	public IndexMinPQ(int initCapacity) {
+		N = 0;
+		keys = (Key[]) new Object[initCapacity + 1];
+		pq = new int[initCapacity + 1];
+		qp = new int[initCapacity + 1];
+		for (int i = 0; i <= initCapacity; i++) qp[i] = -1;
+	}
+	
+	public IndexMinPQ() {
+		this(1);
+	}
+	
+	public void insert(int i, Key key) {
+		if (contains(i)) throw new IllegalArgumentException("index is already in the priority queue");
+		N++;
+		qp[i] = N;
+		pq[N] = i;
+		keys[i] = key;
+	}
+	
+	public void changeKey(int i, Key Key) {
+		//TODO
+	}
+	/**
+	 * returns true if index is already taken
+	 * @param i - index of element in qp
+	 * @return
+	 */
+	public boolean contains(int i) {
+		return (qp[i] != -1);
+	}
+	
+	public void delete(int i) {
+		//TODO
+	}
+	
+	public Key minKey() {
+		return keys[pq[1]];
+	}
+	
+	public int minIndex() {
+		return pq[1];
+	}
+	
+	public int delMin() {
+		//TODO
+	}
+	
+	public boolean isEmpty() {
+		return (N == 0);
+	}
+	
+	public int size() {
+		//TODO
+	}
+	
+	public Key keyOf(int i) {
+		//TODO
+	}
+}
