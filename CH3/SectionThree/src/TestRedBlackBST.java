@@ -20,10 +20,10 @@ public class TestRedBlackBST {
         String[] keys = test.split(" "); 
         RedBlackBST<String, Integer> st = new RedBlackBST<String, Integer>();
         for (int i = 0; i < keys.length; i++) {
-        	while (!StdDraw.mousePressed()) { }
+        	//while (!StdDraw.mousePressed()) { }
             st.put(keys[i], i); 
         	st.draw();
-        	while (StdDraw.mousePressed()) { }
+        	//while (StdDraw.mousePressed()) { }
         }
 
         StdOut.println("size = " + st.size());
@@ -31,11 +31,10 @@ public class TestRedBlackBST {
         StdOut.println("max  = " + st.max());
         StdOut.println();
         
-        while (!st.isEmpty()) {
-        	StdDraw.clear();
-        	st.setDrawSteps(true, 5000);
-        	st.deleteMin();
-        }
+        st.setDrawSteps(true, 1000);
+        StdDraw.clear();
+        st.deleteMax();
+        //st.draw();
 
         // print keys in order using allKeys()
         StdOut.println("Testing keys()");

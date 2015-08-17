@@ -372,7 +372,7 @@ public class RedBlackBST<Key extends Comparable<Key>, Value> {
 	 public void deleteMin() {
 		 if (isEmpty()) throw new NoSuchElementException("BST underflow");
 		 
-		 if (!isRed(root.left) && !isRed(root.right))   //ensures that flipping colors on root follows flipColors invariant
+		 if (!isRed(root.left) && !isRed(root.right))   //ensures that flipping colors on root follows flipColors invariant, moveRedLeft invariant
 			 root.color = RED;
 		 root = deleteMin(root);
 		 if (!isEmpty()) root.color = BLACK;
@@ -388,6 +388,34 @@ public class RedBlackBST<Key extends Comparable<Key>, Value> {
 			 h = moveRedLeft(h);
 		 
 		 h.left = deleteMin(h.left);
+		 if (drawSteps) drawAndWait(h, 0, 0);
+		 return balance(h);
+	 }
+	 
+	 public void deleteMax() {
+		 if (isEmpty()) throw new NoSuchElementException("BST underflow");
+		 
+		 if (!isRed(root.left) && !isRed(root.right))   //ensures that flipping colors on root follows flipColors invariant, moveRedRight invariant
+			 root.color = RED;
+		 
+		 root = deleteMax(root);
+		 if (!isEmpty()) root.color = BLACK;
+		 if (drawSteps) draw();
+		 assert check();
+	 }
+	 
+	 public Node deleteMax(Node h) {
+		 assert (h != null);
+		 if (drawSteps) drawAndWait(h, 0, 0);
+		 if (isRed(h.left)) {
+			 h = rotateRight(h);
+			 if (drawSteps) drawAndWait(h, 0, 0);
+		 }
+		 if (h.right == null)
+			 return null;
+		 if (!isRed(h.right) && !isRed(h.right.left))  //only true if right node isn't 2-node
+			 h = moveRedRight(h);
+		 h.right = deleteMax(h.right);
 		 if (drawSteps) drawAndWait(h, 0, 0);
 		 return balance(h);
 	 }
@@ -411,6 +439,19 @@ public class RedBlackBST<Key extends Comparable<Key>, Value> {
 		 return h;
 	 }
 	 
+	 public Node moveRedRight(Node h) {
+		 assert (h != null);
+		 assert (isRed(h) && !isRed(h.left)); //ensure that current node is not a 2-node
+
+		 flipColors(h);  //h now black and children red
+		 if (drawSteps) drawAndWait(h, 0, 0);
+		 if (isRed(h.left.left)) {    //true if immediate left sibling is not 2-node, then shift largest key from parent to right child and from left child to parent
+			 h = rotateRight(h);
+			 if (drawSteps) drawAndWait(h, 0, 0);
+		 }
+		 return h;
+	 }
+	 
 	 private Node balance(Node h) {
 		 assert (h != null);
 		 
@@ -420,7 +461,6 @@ public class RedBlackBST<Key extends Comparable<Key>, Value> {
 		 }
 		 //why not check && (!isRed(h.left))
 
-		 
 		 if (isRed(h.left) && isRed(h.left.left)) {
 			 h = rotateRight(h);
 			 if (drawSteps) drawAndWait(h, 0, 0);
