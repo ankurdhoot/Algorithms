@@ -455,7 +455,7 @@ public class RedBlackBST<Key extends Comparable<Key>, Value> {
 	 private Node balance(Node h) {
 		 assert (h != null);
 		 
-		 if (isRed(h.right))  {
+		 if (isRed(h.right) && !isRed(h.left))  {
 			 h = rotateLeft(h); 
 			 if (drawSteps) drawAndWait(h, 0, 0);
 		 }
