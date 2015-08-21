@@ -9,9 +9,10 @@
 <fullyQualifiedTypeName name="java.util.Deque"/>
 <fullyQualifiedTypeName name="java.util.Stack"/>
 <fullyQualifiedTypeName name="BSTDraw.Node"/>
-<fullyQualifiedTypeName name="StdDraw"/>
 <fullyQualifiedTypeName name="java.util.LinkedList"/>
 <fullyQualifiedTypeName name="java.util.Queue"/>
 <fullyQualifiedTypeName name="java.util.NoSuchElementException"/>
 <fullyQualifiedTypeName name="java.util.Random"/>
+<fullyQualifiedTypeName name="StdDraw"/>
+<fullyQualifiedTypeName name="StdOut"/>
 </qualifiedTypeNameHistroy>

@@ -2,20 +2,20 @@
 <section name="Workbench">
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
 		<item value="false" key="isRegEx"/>
-		<item value="draw(" key="selection"/>
+		<item value="delay" key="selection"/>
 		<item value="false" key="casesensitive"/>
 		<item value="false" key="incremental"/>
 		<item value="true" key="wrap"/>
 		<item value="false" key="wholeword"/>
 		<list key="findhistory">
+			<item value="delay"/>
+			<item value="setDraw"/>
 			<item value="draw("/>
 			<item value="draw"/>
 			<item value="setPenRadius"/>
 			<item value="flip"/>
 			<item value="put"/>
 			<item value="setCanvas"/>
-			<item value="initialize"/>
-			<item value="height"/>
 		</list>
 		<list key="replacehistory">
 			<item value=""/>

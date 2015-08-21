@@ -186,6 +186,11 @@ public class RedBlackBST<Key extends Comparable<Key>, Value> {
 		else 		   return x;
 	}
 	
+	/**
+	 * 
+	 * @param k
+	 * @return Key with rank k
+	 */
 	public Key select(int k) {
 		if (k < 0 || k >= size()) return null;
 		Node x = select(root, k);
@@ -193,9 +198,10 @@ public class RedBlackBST<Key extends Comparable<Key>, Value> {
 	}
 	
 	private Node select(Node x, int k) {
+		if (x == null) return null;
 		int t = size(x.left);
 		if      (t > k) return select(x.left, k);
-		else if (t < k) return select(x.right, k - t- 1);
+		else if (t < k) return select(x.right, k - t - 1);
 		else            return x;
 	}
 	
@@ -417,6 +423,55 @@ public class RedBlackBST<Key extends Comparable<Key>, Value> {
 			 h = moveRedRight(h);
 		 h.right = deleteMax(h.right);
 		 if (drawSteps) drawAndWait(h, 0, 0);
+		 return balance(h);
+	 }
+	 
+	 public void delete(Key key) {
+		 //assumes key is in the RB tree, else throws NullPointerException
+		 if (!isRed(root.left) && !isRed(root.right)) {
+			 root.color = RED;
+			 if (drawSteps) drawAndWait(root, 0, 0);
+		 }
+		 root = delete(root, key);
+		 if (!isEmpty()) root.color = BLACK;
+		 if (drawSteps) draw();
+		 assert check();
+	 }
+	 
+	 public Node delete(Node h, Key key) {
+		 assert (h != null);
+		 assert (isRed(h) || isRed(h.left));  //current node is not a 2-node
+		 if (drawSteps) drawAndWait(h, 0, 0);
+		 if (key.compareTo(h.key) < 0) {
+			 if (!isRed(h.left) && !isRed(h.left.left)) {
+				 h = moveRedLeft(h);
+				 if (drawSteps) drawAndWait(h, 0, 0);
+			 }
+			 h.left = delete(h.left, key);
+		 }
+		 else {
+			 if (isRed(h.left))
+				 h = rotateRight(h);
+			 if (key.compareTo(h.key) == 0 && (h.right == null)) {  //current node is at bottom of tree
+				 //no left red link possible by above if statement, h.left can't be black by RB invariants else imbalanced
+				 drawAndWait(h, 0, 0);
+				 return null;
+			 }
+			 if (!isRed(h.right) && !isRed(h.right.left)) { //won't be executed if top if statement was true
+				 h = moveRedRight(h);
+				 if (drawSteps) drawAndWait(h, 0, 0);
+			 }
+			 if (key.compareTo(h.key) == 0) { //key found not at bottom
+				 Node x = min(h.right);
+				 h.key = x.key;
+				 h.val = x.val;
+				 if (drawSteps) drawAndWait(h, 0, 0);
+				 h.right = deleteMin(h.right);  //delete the minimum where the current node is not a 2-node by above if statements
+			 }
+			 else {
+				 h.right = delete(h.right, key);
+			 }
+		 }
 		 return balance(h);
 	 }
 	 

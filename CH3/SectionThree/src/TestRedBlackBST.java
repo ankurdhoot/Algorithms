@@ -31,10 +31,14 @@ public class TestRedBlackBST {
         StdOut.println("max  = " + st.max());
         StdOut.println();
         
+       
         st.setDrawSteps(true, 1000);
-        StdDraw.clear();
-        st.deleteMax();
-        //st.draw();
+        StdDraw.show(2000);
+        int random = rng.nextInt(st.size());
+        String key = st.select(random);
+        StdOut.println("Deleting key " + key);
+        st.delete("F");  //delete random Node
+        st.draw();
 
         // print keys in order using allKeys()
         StdOut.println("Testing keys()");
