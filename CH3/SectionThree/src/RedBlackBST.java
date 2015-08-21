@@ -1,9 +1,8 @@
 import java.util.LinkedList;
 import java.util.NoSuchElementException;
 import java.util.Queue;
-
-//TODO
-//Implement delete and deleteMax
+//Updated drawing methods to display deletions and puts
+//took delay out of setDrawSteps
 
 public class RedBlackBST<Key extends Comparable<Key>, Value> {
 	private static final boolean RED = true;
@@ -11,17 +10,16 @@ public class RedBlackBST<Key extends Comparable<Key>, Value> {
 	private static final double RADIUS = .5;
 	
 	private boolean drawSteps;  //if true, intermediate steps in delete will be drawn
-	private int delay;          //time to show each step; StdDraw.show(delay);
+	private String message;
 	
 	private int leftmost;    //x coordinate of leftmost node
 	private int rightmost;   //x coordinate of rightmost node
-	
-	private Key lastKey;  //latest key called with put()
+
 	private Node root;
 	
 	public RedBlackBST() {
 		StdDraw.setCanvasSize(1600, 900);
-		lastKey = null;
+		drawSteps = false;
 	}
 	private class Node {
 		Key key;
@@ -69,23 +67,38 @@ public class RedBlackBST<Key extends Comparable<Key>, Value> {
 	}
 	
 	public void put(Key key, Value val) {
+		message = "Inserting Key " + key.toString() + " with Value " + val.toString();
+		if (drawSteps) drawAndWait(root, 0, 0);
 		root = put(root, key, val);
 		root.color = BLACK;
-		lastKey = key;
+		message = "Inserted Key " + key.toString() + " with Value " + val.toString();
+		if (drawSteps) draw();
 		assert check();
 	}
 
 	private Node put(Node h, Key key, Value val) {
 		if (h == null) return new Node(key, val, RED, 1);
 		
+		if (drawSteps) drawAndWait(h, 0, 0);
 		int cmp = key.compareTo(h.key);
 		if 		(cmp < 0) h.left  = put(h.left, key, val);
 		else if (cmp > 0) h.right = put(h.right, key, val);
 		else 			  h.val = val;
 		
-		if (isRed(h.right) && (!isRed(h.left)))    h = rotateLeft(h);
-		if (isRed(h.left)  && isRed(h.left.left)) h = rotateRight(h);
-		if (isRed(h.left)  && isRed(h.right))     flipColors(h);
+		if (drawSteps) drawAndWait(h, 0, 0);
+		
+		if (isRed(h.right) && (!isRed(h.left)))    {
+			h = rotateLeft(h);
+			if (drawSteps) drawAndWait(h, 0, 0);
+		}
+		if (isRed(h.left)  && isRed(h.left.left)) {
+			h = rotateRight(h);
+			if (drawSteps) drawAndWait(h, 0, 0);
+		}
+		if (isRed(h.left)  && isRed(h.right))     {
+			flipColors(h);
+			if (drawSteps) drawAndWait(h, 0, 0);
+		}
 		h.N = size(h.left) + size(h.right) + 1;
 		
 		return h;
@@ -312,7 +325,7 @@ public class RedBlackBST<Key extends Comparable<Key>, Value> {
 		 StdDraw.clear();
 		 initializePlot(root);
 		 draw(root, 0, 0);
-		 StdDraw.show(delay);
+		 StdDraw.show(0);
 	 }
 	 
 	 public void drawAndWait(Node node, int x, int y) {
@@ -363,12 +376,11 @@ public class RedBlackBST<Key extends Comparable<Key>, Value> {
 		 StdDraw.setPenRadius(.005);
 		 StdDraw.setYscale(-2 * height(x) - 1, 1);
 		 StdDraw.setXscale(leftmost - 1, rightmost + 1);
-		 StdDraw.textLeft(leftmost - .5, 0, "Last Key " + lastKey.toString());
+		 StdDraw.textLeft(leftmost - .5, 0, message);
 	 }
 	 
-	 public void setDrawSteps(boolean b, int delay) {
+	 public void setDrawSteps(boolean b) {
 		 drawSteps = b;
-		 this.delay = delay;
 	 }
 	 
 	 /********************************************************************
@@ -377,7 +389,7 @@ public class RedBlackBST<Key extends Comparable<Key>, Value> {
 	 
 	 public void deleteMin() {
 		 if (isEmpty()) throw new NoSuchElementException("BST underflow");
-		 
+		 message = "Deleting minimum key " + min();
 		 if (!isRed(root.left) && !isRed(root.right))   //ensures that flipping colors on root follows flipColors invariant, moveRedLeft invariant
 			 root.color = RED;
 		 root = deleteMin(root);
@@ -400,7 +412,7 @@ public class RedBlackBST<Key extends Comparable<Key>, Value> {
 	 
 	 public void deleteMax() {
 		 if (isEmpty()) throw new NoSuchElementException("BST underflow");
-		 
+		 message = "Deleting maximum key " + max();
 		 if (!isRed(root.left) && !isRed(root.right))   //ensures that flipping colors on root follows flipColors invariant, moveRedRight invariant
 			 root.color = RED;
 		 
@@ -428,12 +440,13 @@ public class RedBlackBST<Key extends Comparable<Key>, Value> {
 	 
 	 public void delete(Key key) {
 		 //assumes key is in the RB tree, else throws NullPointerException
-		 if (!isRed(root.left) && !isRed(root.right)) {
+		 message = "Deleting key " + key;
+		 if (!isRed(root.left) && !isRed(root.right)) 
 			 root.color = RED;
-			 if (drawSteps) drawAndWait(root, 0, 0);
-		 }
+		 
 		 root = delete(root, key);
 		 if (!isEmpty()) root.color = BLACK;
+		 message = "Deleted key " + key;
 		 if (drawSteps) draw();
 		 assert check();
 	 }
@@ -450,11 +463,13 @@ public class RedBlackBST<Key extends Comparable<Key>, Value> {
 			 h.left = delete(h.left, key);
 		 }
 		 else {
-			 if (isRed(h.left))
+			 if (isRed(h.left)) {
 				 h = rotateRight(h);
+				 if (drawSteps) drawAndWait(h, 0, 0);
+			 }
 			 if (key.compareTo(h.key) == 0 && (h.right == null)) {  //current node is at bottom of tree
 				 //no left red link possible by above if statement, h.left can't be black by RB invariants else imbalanced
-				 drawAndWait(h, 0, 0);
+				 if (drawSteps) drawAndWait(h, 0, 0);
 				 return null;
 			 }
 			 if (!isRed(h.right) && !isRed(h.right.left)) { //won't be executed if top if statement was true
