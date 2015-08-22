@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?><testrun name="RedBlackBSTTest" project="SectionThree" tests="1" started="1" failures="0" errors="0" ignored="0">
+  <testsuite name="RedBlackBSTTest" time="6.159">
+    <testcase name="testDeleteMin" classname="RedBlackBSTTest" time="6.159"/>
+  </testsuite>
+</testrun>
