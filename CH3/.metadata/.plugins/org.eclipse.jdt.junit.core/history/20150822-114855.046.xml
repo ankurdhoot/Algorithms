@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?><testrun name="RedBlackBSTTest" project="SectionThree" tests="3" started="2" failures="0" errors="0" ignored="0">
-  <testsuite name="RedBlackBSTTest" incomplete="true">
-    <testcase name="testDeleteKey" classname="RedBlackBSTTest" time="4.776"/>
-    <testcase name="testDeleteMax" classname="RedBlackBSTTest" incomplete="true"/>
-    <testcase name="testDeleteMin" classname="RedBlackBSTTest" incomplete="true"/>
-  </testsuite>
-</testrun>

@@ -389,11 +389,13 @@ public class RedBlackBST<Key extends Comparable<Key>, Value> {
 	 
 	 public void deleteMin() {
 		 if (isEmpty()) throw new NoSuchElementException("BST underflow");
-		 message = "Deleting minimum key " + min();
+		 Key min = min();
+		 message = "Deleting minimum key " + min;
 		 if (!isRed(root.left) && !isRed(root.right))   //ensures that flipping colors on root follows flipColors invariant, moveRedLeft invariant
 			 root.color = RED;
 		 root = deleteMin(root);
 		 if (!isEmpty()) root.color = BLACK;
+		 message = "Deleted minimum key " + min;
 		 if (drawSteps) draw();
 		 assert check();
 	 }
@@ -412,12 +414,14 @@ public class RedBlackBST<Key extends Comparable<Key>, Value> {
 	 
 	 public void deleteMax() {
 		 if (isEmpty()) throw new NoSuchElementException("BST underflow");
-		 message = "Deleting maximum key " + max();
+		 Key max = max();
+		 message = "Deleting maximum key " + max;
 		 if (!isRed(root.left) && !isRed(root.right))   //ensures that flipping colors on root follows flipColors invariant, moveRedRight invariant
 			 root.color = RED;
 		 
 		 root = deleteMax(root);
 		 if (!isEmpty()) root.color = BLACK;
+		 message = "Deleted maximum key " + max;
 		 if (drawSteps) draw();
 		 assert check();
 	 }
